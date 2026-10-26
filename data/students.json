@@ -1,0 +1,53 @@
+[
+  {
+    "id": "STU-NODE-133",
+    "fullName": "Ayush Sharma",
+    "prn": "2304999",
+    "email": "ayush.sharma@mitaoe.ac.in",
+    "phone": "9823012345",
+    "department": "Computer Engineering",
+    "academicYear": "T.Y. B.Tech (Third Year)",
+    "cgpa": 9.42,
+    "skills": [
+      "Node.js",
+      "Express",
+      "React",
+      "MongoDB"
+    ],
+    "agreeTerms": true,
+    "registeredAt": "2026-10-26T20:50:21.762Z"
+  },
+  {
+    "id": "STU-NODE-101",
+    "fullName": "Ayush",
+    "prn": "2304362",
+    "email": "ayush@mitaoe.ac.in",
+    "phone": "9823012345",
+    "department": "Computer Engineering",
+    "academicYear": "T.Y. B.Tech (Third Year)",
+    "cgpa": 9.42,
+    "skills": [
+      "Node.js",
+      "Express",
+      "React",
+      "MongoDB"
+    ],
+    "registeredAt": "2026-10-27T01:30:00.000Z"
+  },
+  {
+    "id": "STU-NODE-102",
+    "fullName": "Rohan Deshmukh",
+    "prn": "2304112",
+    "email": "rohan.d@mitaoe.ac.in",
+    "phone": "9765432109",
+    "department": "Information Technology",
+    "academicYear": "T.Y. B.Tech (Third Year)",
+    "cgpa": 8.85,
+    "skills": [
+      "Node.js",
+      "Docker",
+      "AWS"
+    ],
+    "registeredAt": "2026-10-27T01:45:00.000Z"
+  }
+]

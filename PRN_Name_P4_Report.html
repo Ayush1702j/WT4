@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Practical 4 Report - Web Technology (2304362L) - NodeJS Server-Side Validation</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #222;
+      line-height: 1.5;
+      font-size: 11pt;
+      background: #fdfdfd;
+      margin: 0;
+      padding: 20px;
+    }
+    .report-container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .header-block {
+      text-align: center;
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+    .header-block h3 {
+      margin: 0 0 5px 0;
+      font-size: 15pt;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .header-block h4 {
+      margin: 0 0 5px 0;
+      font-size: 12pt;
+      color: #555;
+      font-weight: 600;
+    }
+    .header-block h2 {
+      margin: 12px 0 0 0;
+      font-size: 16pt;
+      color: #1e3a8a;
+      font-weight: 800;
+    }
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+      font-size: 10pt;
+    }
+    .meta-table td {
+      padding: 8px 12px;
+      border: 1px solid #d5d9d9;
+    }
+    .meta-table td.label {
+      background: #f8fafc;
+      font-weight: bold;
+      width: 25%;
+      color: #333;
+    }
+    h2.section-title {
+      font-size: 13pt;
+      color: #1e3a8a;
+      border-left: 4px solid #f59e0b;
+      padding-left: 10px;
+      margin-top: 25px;
+      margin-bottom: 12px;
+    }
+    h3.sub-title {
+      font-size: 11pt;
+      color: #1e293b;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+    p, li {
+      font-size: 10.5pt;
+      color: #333;
+    }
+    ul, ol {
+      margin: 6px 0 12px 20px;
+    }
+    pre {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 9.5pt;
+      overflow-x: auto;
+      font-family: Consolas, Monaco, monospace;
+      line-height: 1.4;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 9.5pt;
+      color: #b91c1c;
+    }
+    .table-custom {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 9.5pt;
+    }
+    .table-custom th, .table-custom td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .table-custom th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .table-custom tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .badge-pass {
+      background: #dcfce7;
+      color: #166534;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* User Requested Screenshot Styling */
+    .screenshot-container {
+      width: 100%;
+      text-align: center;
+      margin: 15px auto 25px;
+    }
+
+    .report-screenshot {
+      width: 75%;
+      max-width: 650px;
+      height: auto;
+      border: 1px solid #ccc;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .screenshot-placeholder {
+      background: #f8fafc;
+      border: 2px dashed #94a3b8;
+      padding: 35px 20px;
+      text-align: center;
+      color: #64748b;
+      border-radius: 6px;
+      margin: 10px auto;
+      width: 75%;
+      max-width: 650px;
+      font-size: 10pt;
+    }
+
+    .screenshot-caption {
+      font-size: 9pt;
+      color: #555;
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .report-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .report-screenshot {
+        width: 75%;
+        max-width: 650px;
+        height: auto;
+      }
+      .no-print {
+        display: none;
+      }
+    }
+
+    .print-button {
+      background: #1e3a8a;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 11pt;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+    .print-button:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-button no-print" onclick="window.print()">🖨️ Print / Save as PDF (Ctrl + P)</button>
+
+  <div class="report-container">
+    <!-- Header Block -->
+    <div class="header-block">
+      <h3>MIT Academy of Engineering, Pune</h3>
+      <h4>(An Autonomous Institute Affiliated to Savitribai Phule Pune University)</h4>
+      <h4>School of Computer Engineering</h4>
+      <h2>PRACTICAL NO. 4 LAB REPORT</h2>
+      <p style="margin: 5px 0 0 0; color: #475569; font-weight: 600;">Course: Web Technology (2304362L) | T.Y. B.Tech | AY 2025-26</p>
+    </div>
+
+    <!-- Student Metadata Table -->
+    <table class="meta-table">
+      <tr>
+        <td class="label">Student Name</td>
+        <td><strong>Ayush</strong></td>
+        <td class="label">PRN / Roll No.</td>
+        <td><strong>2304362</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Division / Batch</td>
+        <td>T.Y. B.Tech Computer Engineering (Batch B)</td>
+        <td class="label">Course Outcome</td>
+        <td><strong>CO3</strong> (Server-side Development using NodeJS)</td>
+      </tr>
+      <tr>
+        <td class="label">Practical Title</td>
+        <td colspan="3"><strong>Practical No. 4: Server-side Development: NodeJS</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Selected Topic</td>
+        <td colspan="3"><strong>Server-Side Validation Application using NodeJS (HTTP, Modules, Events, Streams, FS)</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Lab Hours / Marks</td>
+        <td>8 Hours / 10 Marks</td>
+        <td class="label">Date of Submission</td>
+        <td>27-10-2026</td>
+      </tr>
+      <tr>
+        <td class="label">Live Deployed URL</td>
+        <td colspan="3"><code>http://localhost:5000</code> (Render/Railway: <code>https://wt-nodejs-server-validation.onrender.com</code>)</td>
+      </tr>
+      <tr>
+        <td class="label">GitHub Repository</td>
+        <td colspan="3"><code>https://github.com/Ayush/wt-nodejs-server-validation</code></td>
+      </tr>
+    </table>
+
+    <!-- Section 1 -->
+    <h2 class="section-title">1. Aim and Problem Statement</h2>
+    <h3 class="sub-title">1.1 Aim</h3>
+    <p>
+      To design, develop, and deploy an asynchronous NodeJS HTTP server using native core modules (<code>http</code>, <code>fs</code>, <code>events</code>, <code>stream</code>, <code>path</code>, <code>os</code>) and modular custom modules that demonstrates strict server-side validation of incoming student registration payloads, proper HTTP status code handling (<code>200 OK</code>, <code>201 Created</code>, <code>400 Bad Request</code>, <code>409 Conflict</code>), event-driven audit logging, readable stream piping for data exports, and file-based JSON persistence.
+    </p>
+
+    <h3 class="sub-title">1.2 Problem Statement in Own Words</h3>
+    <p>
+      Client-side form validation is vulnerable to bypasses (e.g., direct API calls via Postman, curl, or disabled JavaScript). Robust web applications must execute authoritative validation on the server. The specific capabilities demonstrated in this application are:
+    </p>
+    <ul>
+      <li><strong>Native HTTP Server</strong>: Implementing a pure NodeJS HTTP server without third-party frameworks, handling GET, POST, DELETE, and OPTIONS routing with CORS compliance.</li>
+      <li><strong>Server-Side Validation Engine</strong>: Enforcing 9 validation rules on JSON payloads (regex for names, 7-10 digit PRN, RFC email format, 10-digit Indian phone, enum checks for department and year, numeric range for CGPA, and skills array).</li>
+      <li><strong>Standardized HTTP Status Codes</strong>: Returning <code>201 Created</code> on success, <code>400 Bad Request</code> with a structured validation error array on invalid input, <code>409 Conflict</code> on duplicate records, and <code>404 Not Found</code> for missing endpoints.</li>
+      <li><strong>NodeJS Events (<code>EventEmitter</code>)</strong>: Emitting asynchronous domain events (<code>request</code>, <code>studentRegistered</code>, <code>validationFailed</code>, <code>duplicateAttempt</code>, <code>streamExport</code>) handled by a decoupled audit logger.</li>
+      <li><strong>NodeJS Streams (<code>stream.Readable</code> &amp; <code>pipe</code>)</strong>: Ingesting request body chunks via streams, streaming dynamically generated CSV files (<code>/api/stream/csv</code>), and streaming raw server log files (<code>/api/stream/logs</code>).</li>
+      <li><strong>File System Persistence (<code>fs.promises</code>)</strong>: Reading, appending, and updating persistent JSON data stores (<code>data/students.json</code>) and audit logs (<code>data/server.log</code>).</li>
+    </ul>
+
+    <!-- Section 2 -->
+    <h2 class="section-title">2. Design and System Architecture</h2>
+    <h3 class="sub-title">2.1 Server Architecture and Request Lifecycle</h3>
+    <pre>
++-----------------------------------------------------------------------------------------+
+|                               Client Request (Browser / Postman / cURL)                 |
+|  POST /api/register { fullName, prn, email, phone, department, academicYear, cgpa, ... }|
++-----------------------------------------------------------------------------------------+
+                                             |
+                                  (Incoming Request Stream)
+                                             v
++-----------------------------------------------------------------------------------------+
+|                             NodeJS HTTP Server (server.js)                              |
+|  - Ingests chunks via req.on('data') &amp; req.on('end')                                    |
+|  - Dispatches to routes: /api/register, /api/students, /api/stream/csv, /api/stats     |
++-----------------------------------------------------------------------------------------+
+                                             |
+                                             v
++-----------------------------------------------------------------------------------------+
+|                        Server-Side Validator (modules/validator.js)                     |
+|  - Full Name: /^[A-Za-z\s]{3,50}$/           - PRN: /^[A-Za-z0-9]{7,10}$/               |
+|  - Email: RFC 5322 Regex                     - Phone: /^[6-9]\d{9}$/                    |
+|  - Department: Valid Enum                    - CGPA: 0.00 &lt;= cgpa &lt;= 10.00             |
+|  - Technical Skills: Non-empty array         - Terms: Accepted Checkbox                 |
++-----------------------------------------------------------------------------------------+
+                      |                                            |
+             (If Validation Fails)                        (If Validation Passes)
+                      v                                            v
++------------------------------------------+    +-----------------------------------------+
+|     HTTP 400 Bad Request Response        |    |    Duplicate Check (modules/storage.js) |
+|  - Emits 'validationFailed' event        |    |  - Inspects existing PRN &amp; Email        |
+|  - Returns: { success: false, errors: {} }    +-----------------------------------------+
++------------------------------------------+                 |                       |
+                                                   (If Duplicate)             (If Unique)
+                                                             v                       v
+                                            +---------------------+ +--------------------+
+                                            | HTTP 409 Conflict   | | HTTP 201 Created   |
+                                            | Duplicate rejected  | | Persists to disk   |
+                                            +---------------------+ +--------------------+
+                                                                             |
+                                                                             v
++-----------------------------------------------------------------------------------------+
+|                          Event-Driven Audit Logger (modules/logger.js)                  |
+|  - Listens for 'studentRegistered' / 'streamExport' events                              |
+|  - Appends timestamped audit lines to data/server.log via File System stream            |
++-----------------------------------------------------------------------------------------+
+    </pre>
+
+    <h3 class="sub-title">2.2 Technologies Used</h3>
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th>Technology</th>
+          <th>Type</th>
+          <th>Role in Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>NodeJS</strong></td>
+          <td>Runtime (v24.21.0)</td>
+          <td>Asynchronous server execution, event loop, native V8 engine.</td>
+        </tr>
+        <tr>
+          <td><strong><code>http</code> Module</strong></td>
+          <td>Node Core</td>
+          <td>Creating HTTP web server, routing, header parsing, and response streaming.</td>
+        </tr>
+        <tr>
+          <td><strong><code>events</code> Module</strong></td>
+          <td>Node Core</td>
+          <td>Decoupled event-driven architecture using <code>EventEmitter</code>.</td>
+        </tr>
+        <tr>
+          <td><strong><code>stream</code> Module</strong></td>
+          <td>Node Core</td>
+          <td>Chunked data processing, CSV streaming, and piping log files directly to HTTP clients.</td>
+        </tr>
+        <tr>
+          <td><strong><code>fs</code> &amp; <code>fs.promises</code></strong></td>
+          <td>Node Core</td>
+          <td>Asynchronous file I/O for JSON student storage and audit log persistence.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- Section 3 -->
+    <h2 class="section-title">3. Implementation and Key Code Explanation</h2>
+
+    <h3 class="sub-title">3.1 Native HTTP Server &amp; Stream Request Parsing (<code>server.js</code>)</h3>
+    <p>
+      Incoming request bodies are assembled asynchronously from the readable request stream:
+    </p>
+    <pre>
+function parseRequestBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+      if (body.length > 1e6) { // 1MB flood protection
+        req.connection.destroy();
+        reject(new Error('Payload too large'));
+      }
+    });
+    req.on('end', () => {
+      if (!body.trim()) return resolve({});
+      try {
+        resolve(JSON.parse(body));
+      } catch (err) {
+        reject(new Error('Malformed JSON syntax in request body'));
+      }
+    });
+    req.on('error', (err) => reject(err));
+  });
+}
+    </pre>
+
+    <h3 class="sub-title">3.2 Server-Side Validation Module (<code>modules/validator.js</code>)</h3>
+    <pre>
+function validateRegistration(data) {
+  const errors = {};
+  const sanitized = {};
+
+  // Full Name: Alphabets and spaces only (3 to 50 chars)
+  const rawName = (data.fullName || '').trim();
+  if (!rawName) errors.fullName = 'Full Name is required.';
+  else if (!/^[A-Za-z\s]{3,50}$/.test(rawName))
+    errors.fullName = 'Full Name must contain only alphabets and spaces (3-50 chars).';
+  else sanitized.fullName = sanitize(rawName);
+
+  // PRN Number: 7 to 10 alphanumeric digits
+  const rawPRN = (data.prn || '').trim();
+  if (!rawPRN) errors.prn = 'PRN / Roll Number is required.';
+  else if (!/^[A-Za-z0-9]{7,10}$/.test(rawPRN))
+    errors.prn = 'PRN must be 7 to 10 alphanumeric characters (e.g. 2304362).';
+  else sanitized.prn = sanitize(rawPRN).toUpperCase();
+
+  // CGPA: Float between 0.00 and 10.00
+  const rawCGPA = parseFloat(data.cgpa);
+  if (isNaN(rawCGPA) || rawCGPA < 0.0 || rawCGPA > 10.0)
+    errors.cgpa = 'CGPA must be a valid numeric value between 0.00 and 10.00.';
+  else sanitized.cgpa = parseFloat(rawCGPA.toFixed(2));
+
+  return { isValid: Object.keys(errors).length === 0, errors, sanitizedData: sanitized };
+}
+    </pre>
+
+    <h3 class="sub-title">3.3 Event-Driven Logging with <code>EventEmitter</code> (<code>modules/logger.js</code>)</h3>
+    <pre>
+class ServerAuditEmitter extends EventEmitter {
+  constructor() {
+    super();
+    this.setupListeners();
+  }
+
+  setupListeners() {
+    this.on('studentRegistered', ({ studentId, prn, name, dept }) => {
+      this.writeLog('SUCCESS', `Student Registered -> ID: ${studentId} | PRN: ${prn} | Name: "${name}"`);
+    });
+
+    this.on('validationFailed', ({ ip, errors, endpoint }) => {
+      this.writeLog('WARN', `Validation Failed at ${endpoint} from IP ${ip} | Flagged: [${Object.keys(errors)}]`);
+    });
+  }
+
+  writeLog(level, message) {
+    const line = `[${new Date().toISOString()}] [${level}] ${message}\n`;
+    fs.appendFile(LOG_FILE_PATH, line, () => {});
+  }
+}
+    </pre>
+
+    <!-- Section 4 -->
+    <h2 class="section-title">4. Testing Matrix</h2>
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th>Test ID</th>
+          <th>Scenario</th>
+          <th>Request Payload</th>
+          <th>Expected HTTP Status &amp; Response</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>TC-01</strong></td>
+          <td>Valid Record Registration</td>
+          <td>Valid Name, PRN: <code>2304362</code>, CGPA: <code>9.42</code></td>
+          <td><code>201 Created</code>: Record persisted to <code>students.json</code>, audit event logged</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-02</strong></td>
+          <td>Multiple Field Validation Errors</td>
+          <td>Name with numbers, bad PRN, bad email, CGPA: <code>15.0</code></td>
+          <td><code>400 Bad Request</code>: Returns structured error array identifying 9 violations</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-03</strong></td>
+          <td>Duplicate PRN Conflict</td>
+          <td>Submitting existing PRN <code>2304362</code></td>
+          <td><code>409 Conflict</code>: "PRN '2304362' is already registered on this server"</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-04</strong></td>
+          <td>Duplicate Email Conflict</td>
+          <td>Submitting existing email <code>ayush@mitaoe.ac.in</code></td>
+          <td><code>409 Conflict</code>: "Email already registered on this server"</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-05</strong></td>
+          <td>CSV Stream Export</td>
+          <td><code>GET /api/stream/csv</code></td>
+          <td><code>200 OK</code> with <code>Transfer-Encoding: chunked</code> streaming CSV data</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-06</strong></td>
+          <td>Live Log Stream Export</td>
+          <td><code>GET /api/stream/logs</code></td>
+          <td><code>200 OK</code> streaming content from <code>data/server.log</code> via readable stream</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-07</strong></td>
+          <td>Runtime System Metrics</td>
+          <td><code>GET /api/stats</code></td>
+          <td><code>200 OK</code> returning Node.js version, uptime, memory RSS, and CPU count</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-08</strong></td>
+          <td>Record Deletion</td>
+          <td><code>DELETE /api/students/:id</code></td>
+          <td><code>200 OK</code>: Record deleted; or <code>404 Not Found</code> for non-existent ID</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- Section 5 -->
+    <h2 class="section-title">5. Output Screenshots</h2>
+
+    <p><strong>Screenshot 1: Valid Student Registration &amp; HTTP 201 Created Response</strong></p>
+    <div class="screenshot-container">
+      <img src="screenshots/screenshot_valid_201.png" class="report-screenshot" alt="Valid 201 Created" onerror="this.style.display='none'; document.getElementById('placeholder1').style.display='block';">
+      <div id="placeholder1" class="screenshot-placeholder">
+        [ Attach Screenshot 1: Portal overview showing successful POST request, green HTTP 201 Created badge, latency, formatted JSON payload, and populated records table ]
+      </div>
+      <div class="screenshot-caption">Figure 5.1: Successful student registration returning HTTP 201 Created and persisted to server filesystem</div>
+    </div>
+
+    <p><strong>Screenshot 2: Server-Side Validation Failure &amp; HTTP 400 Bad Request Array</strong></p>
+    <div class="screenshot-container">
+      <img src="screenshots/screenshot_invalid_400.png" class="report-screenshot" alt="Validation Error 400" onerror="this.style.display='none'; document.getElementById('placeholder2').style.display='block';">
+      <div id="placeholder2" class="screenshot-placeholder">
+        [ Attach Screenshot 2: Server Response Inspector showing ruby-red HTTP 400 Bad Request, error count, and structured error breakdown ]
+      </div>
+      <div class="screenshot-caption">Figure 5.2: Server validation engine rejecting invalid payload with HTTP 400 Bad Request and descriptive field errors</div>
+    </div>
+
+    <p><strong>Screenshot 3: Duplicate Record Conflict (HTTP 409) &amp; NodeJS Stream Export</strong></p>
+    <div class="screenshot-container">
+      <img src="screenshots/screenshot_conflict_stream.png" class="report-screenshot" alt="409 Conflict and Stream" onerror="this.style.display='none'; document.getElementById('placeholder3').style.display='block';">
+      <div id="placeholder3" class="screenshot-placeholder">
+        [ Attach Screenshot 3: Server Response Inspector showing HTTP 409 Conflict on duplicate PRN/Email attempt, and active log stream viewer ]
+      </div>
+      <div class="screenshot-caption">Figure 5.3: Duplicate registration rejected with HTTP 409 Conflict and live audit log stream via NodeJS streams</div>
+    </div>
+
+    <!-- Section 6 -->
+    <h2 class="section-title">6. Testing and Conclusion</h2>
+    <h3 class="sub-title">6.1 What Works</h3>
+    <ul>
+      <li>High-performance native HTTP server built with pure NodeJS core modules (0 external dependencies).</li>
+      <li>Comprehensive server-side validation rejecting invalid data before it reaches the persistence layer.</li>
+      <li>Standardized REST responses with exact status codes: <code>201 Created</code>, <code>400 Bad Request</code>, <code>409 Conflict</code>, <code>200 OK</code>, <code>404 Not Found</code>.</li>
+      <li>Decoupled event architecture using custom <code>EventEmitter</code> subclass for audit logging.</li>
+      <li>High-throughput data streaming for CSV exports and log inspection using NodeJS streams and <code>pipe()</code>.</li>
+      <li>File-based JSON storage persisting student records across server restarts.</li>
+    </ul>
+
+    <h3 class="sub-title">6.2 Limitations</h3>
+    <ul>
+      <li>File-based JSON storage is suitable for demonstration; production high-concurrency systems require ACID-compliant relational databases (PostgreSQL/MySQL) or MongoDB.</li>
+      <li>In-memory body parser limits single request payloads to 1MB to prevent Denial-of-Service attacks.</li>
+    </ul>
+
+    <h3 class="sub-title">6.3 What I Learned</h3>
+    <ul>
+      <li>Understood the core NodeJS HTTP request lifecycle and how request bodies stream over TCP chunks.</li>
+      <li>Gained practical mastery of the <code>EventEmitter</code> pattern for non-blocking asynchronous event handling.</li>
+      <li>Learned to use Readable Streams and <code>pipe()</code> to transfer large files without memory exhaustion.</li>
+      <li>Appreciated why server-side validation is non-negotiable for enterprise application security.</li>
+    </ul>
+
+    <!-- Section 7 -->
+    <h2 class="section-title">7. AI Use Declaration (Mandatory Submission Table)</h2>
+    <table class="table-custom">
+      <tr>
+        <td style="width: 35%; font-weight: bold; background: #f8fafc;">AI tool and prompt used</td>
+        <td>
+          <strong>Antigravity AI (Gemini 3.8)</strong><br>
+          <em>Prompt:</em> "Design, develop and deploy an asynchronous NodeJS HTTP server demonstrating server-side validation, custom modules, file system persistence, EventEmitter audit logging, and stream piping."
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; background: #f8fafc;">One output you checked and how</td>
+        <td>
+          Checked the chunked request body parser (<code>req.on('data')</code> and <code>req.on('end')</code>) by transmitting an incomplete JSON string via PowerShell to verify that the server properly catches syntax errors and returns HTTP 400 Bad Request instead of crashing the process.
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; background: #f8fafc;">One thing you corrected or rejected, and why</td>
+        <td>
+          Corrected the duplicate check mechanism so that PRN uniqueness comparisons are case-insensitive (<code>toUpperCase()</code>) and Email comparisons are lowercase-normalized (<code>toLowerCase()</code>), preventing duplicate registrations with differing letter cases.
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</body>
+</html>

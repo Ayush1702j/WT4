@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NodeJS Server-Side Validation Application | Practical 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">⬡</div>
+        <div>
+          <h1 class="brand-title">NodeJS Server-Side Validation Portal</h1>
+          <span class="brand-sub">MIT Academy of Engineering | School of Computer Engineering</span>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-course">WT (2304362L)</span>
+        <span class="badge badge-outcome">Outcome: CO3</span>
+        <span class="badge badge-node" id="nodeVersionBadge">Node.js Core</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- Hero / Metadata Bar -->
+    <section class="server-status-bar">
+      <div class="status-kpis">
+        <div class="kpi-item">
+          <span class="kpi-label">Server Status</span>
+          <span class="kpi-val text-green" id="serverLiveStatus">● ONLINE (Port 5000)</span>
+        </div>
+        <div class="kpi-item">
+          <span class="kpi-label">Node Runtime</span>
+          <span class="kpi-val" id="serverRuntime">-</span>
+        </div>
+        <div class="kpi-item">
+          <span class="kpi-label">Server Memory (RSS)</span>
+          <span class="kpi-val" id="serverMemory">-</span>
+        </div>
+        <div class="kpi-item">
+          <span class="kpi-label">Registered Students</span>
+          <span class="kpi-val" id="registeredCount">-</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main 2-Column Grid: Form & Server Response Inspector -->
+    <div class="portal-grid">
+
+      <!-- LEFT COLUMN: Registration Form with Preset Loaders -->
+      <div class="portal-column">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Student Registration Form</h2>
+              <p class="card-desc">All fields are validated strictly on the NodeJS server. Client enforces zero artificial checks.</p>
+            </div>
+            <!-- Test Preset Action Buttons -->
+            <div class="preset-buttons">
+              <button type="button" class="btn-preset btn-preset-valid" id="btnLoadValid" title="Populate form with 100% valid inputs">
+                ✓ Load Valid Data
+              </button>
+              <button type="button" class="btn-preset btn-preset-invalid" id="btnLoadInvalid" title="Populate form with invalid data (numbers in name, wrong PRN, bad email, CGPA 12.5)">
+                ⚠️ Load Invalid Data
+              </button>
+              <button type="button" class="btn-preset btn-preset-clear" id="btnClearForm">
+                ↺ Reset
+              </button>
+            </div>
+          </div>
+
+          <form id="registrationForm" novalidate>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="fullName">Full Name <span class="req">*</span></label>
+                <input type="text" id="fullName" name="fullName" placeholder="e.g. Ayush Sharma" required>
+                <small class="field-hint">Server rule: Alphabets and spaces only (3 to 50 chars)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="prn">PRN / Roll Number <span class="req">*</span></label>
+                <input type="text" id="prn" name="prn" placeholder="e.g. 2304362" required>
+                <small class="field-hint">Server rule: 7 to 10 alphanumeric digits</small>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="email">Official Email <span class="req">*</span></label>
+                <input type="email" id="email" name="email" placeholder="e.g. ayush@mitaoe.ac.in" required>
+                <small class="field-hint">Server rule: Valid RFC 5322 email pattern</small>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Mobile Number <span class="req">*</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="e.g. 9823012345" required>
+                <small class="field-hint">Server rule: 10-digit Indian mobile starting with 6-9</small>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="department">Academic Department <span class="req">*</span></label>
+                <select id="department" name="department" required>
+                  <option value="">-- Select Department --</option>
+                  <option value="Computer Engineering">Computer Engineering</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Electronics & Telecommunication">Electronics & Telecommunication</option>
+                  <option value="Mechanical Engineering">Mechanical Engineering</option>
+                  <option value="Civil Engineering">Civil Engineering</option>
+                </select>
+                <small class="field-hint">Server rule: Must match validated department enum</small>
+              </div>
+
+              <div class="form-group">
+                <label for="academicYear">Year of Study <span class="req">*</span></label>
+                <select id="academicYear" name="academicYear" required>
+                  <option value="">-- Select Academic Year --</option>
+                  <option value="F.Y. B.Tech (First Year)">F.Y. B.Tech (First Year)</option>
+                  <option value="S.Y. B.Tech (Second Year)">S.Y. B.Tech (Second Year)</option>
+                  <option value="T.Y. B.Tech (Third Year)">T.Y. B.Tech (Third Year)</option>
+                  <option value="Final Year B.Tech">Final Year B.Tech</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="cgpa">Current CGPA <span class="req">*</span></label>
+                <input type="number" id="cgpa" name="cgpa" step="0.01" min="0" max="10" placeholder="e.g. 9.42" required>
+                <small class="field-hint">Server rule: Float value between 0.00 and 10.00</small>
+              </div>
+
+              <div class="form-group">
+                <label for="skills">Technical Skills (Comma-separated) <span class="req">*</span></label>
+                <input type="text" id="skills" name="skills" placeholder="e.g. Node.js, Express, React, MongoDB" required>
+                <small class="field-hint">Server rule: Parsed into array of non-empty strings</small>
+              </div>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="agreeTerms" name="agreeTerms">
+                <span>I certify that all details submitted are accurate and comply with MIT AOE academic integrity policies. <span class="req">*</span></span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit" id="btnSubmit">
+                🚀 Send [POST] Request to /api/register
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Real-Time Server Response Inspector -->
+      <div class="portal-column">
+        <div class="card inspector-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Server Response Inspector</h2>
+              <p class="card-desc">Inspects exact HTTP Status Codes, latency &amp; JSON responses received from the Node server.</p>
+            </div>
+            <span class="badge badge-neutral" id="statusBadge">Status: Ready</span>
+          </div>
+
+          <div class="inspector-meta-row">
+            <div class="meta-box">
+              <span class="meta-label">HTTP Status Code</span>
+              <span class="status-code-display" id="statusCodeText">---</span>
+            </div>
+            <div class="meta-box">
+              <span class="meta-label">Roundtrip Latency</span>
+              <span class="meta-val" id="latencyText">0 ms</span>
+            </div>
+            <div class="meta-box">
+              <span class="meta-label">Server Method</span>
+              <span class="meta-val font-mono">POST /api/register</span>
+            </div>
+          </div>
+
+          <!-- JSON Response Payload Viewer -->
+          <div class="response-viewer-wrapper">
+            <div class="viewer-header">
+              <span>HTTP Response Body (application/json)</span>
+              <button type="button" class="btn-copy" id="btnCopyJSON" title="Copy JSON payload">📋 Copy</button>
+            </div>
+            <pre class="json-viewer" id="jsonViewer">{
+  "info": "Submit the registration form or click 'Load Valid Data' / 'Load Invalid Data' to inspect server responses."
+}</pre>
+          </div>
+
+          <!-- Error Details Callout (Shown on 400 Bad Request) -->
+          <div class="error-callout" id="errorCallout" style="display: none;">
+            <div class="callout-title">⚠️ Server Validation Flagged the Following Errors:</div>
+            <ul class="error-items-list" id="errorItemsList"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NodeJS Capabilities Showcase: Streams & Records Table -->
+    <div class="card showcase-card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">NodeJS Streams &amp; File System Showcase</h2>
+          <p class="card-desc">Demonstrates file persistence in <code>data/students.json</code> and readable streams piping data directly to response.</p>
+        </div>
+        <div class="stream-actions">
+          <a href="/api/stream/csv" class="btn-stream" target="_blank" title="Stream CSV download via NodeJS Readable Stream">
+            ⬇️ Download CSV Stream (Node Streams)
+          </a>
+          <button type="button" class="btn-stream btn-stream-logs" id="btnFetchLogs">
+            📜 Stream Server Audit Logs
+          </button>
+        </div>
+      </div>
+
+      <!-- Students Table -->
+      <div class="table-container">
+        <table class="students-table" id="studentsTable">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>PRN</th>
+              <th>Full Name</th>
+              <th>Department</th>
+              <th>Year</th>
+              <th>CGPA</th>
+              <th>Skills</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody">
+            <tr>
+              <td colspan="8" class="text-center">Loading student records from server...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Live Stream Logs Viewer -->
+      <div class="log-stream-container" id="logStreamContainer" style="display: none;">
+        <div class="log-stream-header">
+          <span>Server Audit Log Stream (data/server.log)</span>
+          <button type="button" class="btn-close-logs" id="btnCloseLogs">✕ Close</button>
+        </div>
+        <pre class="log-stream-body" id="logStreamBody">Streaming logs...</pre>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <p>MIT Academy of Engineering, Pune | School of Computer Engineering | Web Technology (2304362L)</p>
+    <p class="footer-sub">Practical No. 4: Server-Side Validation Application using NodeJS | Student: Ayush (PRN: 2304362)</p>
+  </footer>
+
+  <script src="/js/client.js"></script>
+</body>
+</html>

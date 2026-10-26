@@ -1,0 +1,14 @@
+[2026-10-26T20:49:56.429Z] [INIT] Server Audit Log Stream Initialized
+[2026-10-26T20:50:02.937Z] [INFO] Incoming Request: GET / from IP ::1
+[2026-10-26T20:50:09.728Z] [INFO] Incoming Request: GET /api/students from IP ::1
+[2026-10-26T20:50:15.829Z] [INFO] Incoming Request: POST /api/register from IP ::1
+[2026-10-26T20:50:15.830Z] [WARN] Validation Failed at /api/register from IP ::1 | Flagged Fields: [fullName, prn, email, phone, department, academicYear, cgpa, skills, agreeTerms]
+[2026-10-26T20:50:21.761Z] [INFO] Incoming Request: POST /api/register from IP ::1
+[2026-10-26T20:50:21.764Z] [SUCCESS] Student Registered -> ID: STU-NODE-133 | PRN: 2304999 | Name: "Ayush Sharma" | Dept: Computer Engineering
+[2026-10-26T20:50:26.901Z] [WARN] Validation Failed at /api/register from IP ::1 | Flagged Fields: [fullName, prn, email, phone, department, academicYear, cgpa, skills, agreeTerms]
+[2026-10-26T20:50:26.901Z] [INFO] Incoming Request: POST /api/register from IP ::1
+[2026-10-26T20:50:33.237Z] [INFO] Incoming Request: POST /api/register from IP ::1
+[2026-10-26T20:50:33.239Z] [CONFLICT] Duplicate Registration Rejected | PRN: 2304999 / Email: different.email@mitaoe.ac.in | IP: ::1
+[2026-10-26T20:50:37.944Z] [INFO] Incoming Request: GET /api/stream/csv from IP ::1
+[2026-10-26T20:50:37.946Z] [STREAM] Export Stream Triggered (CSV) -> Streamed 3 records to IP ::1
+[2026-10-26T20:50:42.474Z] [INFO] Incoming Request: GET /api/stats from IP ::1

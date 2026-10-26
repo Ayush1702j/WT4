@@ -1,0 +1,24 @@
+{
+  "name": "wt-assignment-4-nodejs-validation",
+  "version": "1.0.0",
+  "description": "Practical No. 4: Server-Side Validation Application using NodeJS (Core Modules, Events, Streams, FS)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "server-side-validation",
+    "http",
+    "streams",
+    "events",
+    "fs",
+    "mitaoe"
+  ],
+  "author": "Ayush (PRN: 2304362)",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
