@@ -228,13 +228,13 @@
     <table class="meta-table">
       <tr>
         <td class="label">Student Name</td>
-        <td><strong>Ayush</strong></td>
-        <td class="label">PRN / Roll No.</td>
-        <td><strong>2304362</strong></td>
+        <td><strong>Ayush H Jugseniye</strong></td>
+        <td class="label">PRN.</td>
+        <td><strong>202401040128</strong></td>
       </tr>
       <tr>
-        <td class="label">Division / Batch</td>
-        <td>T.Y. B.Tech Computer Engineering (Batch B)</td>
+        <td class="label">Batch </td>
+        <td>T.Y. B.Tech Computer Engineering (Batch : WT1)</td>
         <td class="label">Course Outcome</td>
         <td><strong>CO3</strong> (Server-side Development using NodeJS)</td>
       </tr>
@@ -247,18 +247,13 @@
         <td colspan="3"><strong>Server-Side Validation Application using NodeJS (HTTP, Modules, Events, Streams, FS)</strong></td>
       </tr>
       <tr>
-        <td class="label">Lab Hours / Marks</td>
-        <td>8 Hours / 10 Marks</td>
-        <td class="label">Date of Submission</td>
-        <td>27-10-2026</td>
+        
       </tr>
       <tr>
-        <td class="label">Live Deployed URL</td>
-        <td colspan="3"><code>http://localhost:5000</code> (Render/Railway: <code>https://wt-nodejs-server-validation.onrender.com</code>)</td>
+        
       </tr>
       <tr>
-        <td class="label">GitHub Repository</td>
-        <td colspan="3"><code>https://github.com/Ayush/wt-nodejs-server-validation</code></td>
+        
       </tr>
     </table>
 
@@ -531,38 +526,10 @@ class ServerAuditEmitter extends EventEmitter {
     <div class="page-break"></div>
 
     <!-- Section 5 -->
-    <h2 class="section-title">5. Output Screenshots</h2>
-
-    <p><strong>Screenshot 1: Valid Student Registration &amp; HTTP 201 Created Response</strong></p>
-    <div class="screenshot-container">
-      <img src="screenshots/screenshot_valid_201.png" class="report-screenshot" alt="Valid 201 Created" onerror="this.style.display='none'; document.getElementById('placeholder1').style.display='block';">
-      <div id="placeholder1" class="screenshot-placeholder">
-        [ Attach Screenshot 1: Portal overview showing successful POST request, green HTTP 201 Created badge, latency, formatted JSON payload, and populated records table ]
-      </div>
-      <div class="screenshot-caption">Figure 5.1: Successful student registration returning HTTP 201 Created and persisted to server filesystem</div>
-    </div>
-
-    <p><strong>Screenshot 2: Server-Side Validation Failure &amp; HTTP 400 Bad Request Array</strong></p>
-    <div class="screenshot-container">
-      <img src="screenshots/screenshot_invalid_400.png" class="report-screenshot" alt="Validation Error 400" onerror="this.style.display='none'; document.getElementById('placeholder2').style.display='block';">
-      <div id="placeholder2" class="screenshot-placeholder">
-        [ Attach Screenshot 2: Server Response Inspector showing ruby-red HTTP 400 Bad Request, error count, and structured error breakdown ]
-      </div>
-      <div class="screenshot-caption">Figure 5.2: Server validation engine rejecting invalid payload with HTTP 400 Bad Request and descriptive field errors</div>
-    </div>
-
-    <p><strong>Screenshot 3: Duplicate Record Conflict (HTTP 409) &amp; NodeJS Stream Export</strong></p>
-    <div class="screenshot-container">
-      <img src="screenshots/screenshot_conflict_stream.png" class="report-screenshot" alt="409 Conflict and Stream" onerror="this.style.display='none'; document.getElementById('placeholder3').style.display='block';">
-      <div id="placeholder3" class="screenshot-placeholder">
-        [ Attach Screenshot 3: Server Response Inspector showing HTTP 409 Conflict on duplicate PRN/Email attempt, and active log stream viewer ]
-      </div>
-      <div class="screenshot-caption">Figure 5.3: Duplicate registration rejected with HTTP 409 Conflict and live audit log stream via NodeJS streams</div>
-    </div>
-
+    
     <!-- Section 6 -->
-    <h2 class="section-title">6. Testing and Conclusion</h2>
-    <h3 class="sub-title">6.1 What Works</h3>
+    <h2 class="section-title">5. Testing and Conclusion</h2>
+    <h3 class="sub-title">5.1 What Works</h3>
     <ul>
       <li>High-performance native HTTP server built with pure NodeJS core modules (0 external dependencies).</li>
       <li>Comprehensive server-side validation rejecting invalid data before it reaches the persistence layer.</li>
@@ -572,13 +539,13 @@ class ServerAuditEmitter extends EventEmitter {
       <li>File-based JSON storage persisting student records across server restarts.</li>
     </ul>
 
-    <h3 class="sub-title">6.2 Limitations</h3>
+    <h3 class="sub-title">5.2 Limitations</h3>
     <ul>
       <li>File-based JSON storage is suitable for demonstration; production high-concurrency systems require ACID-compliant relational databases (PostgreSQL/MySQL) or MongoDB.</li>
       <li>In-memory body parser limits single request payloads to 1MB to prevent Denial-of-Service attacks.</li>
     </ul>
 
-    <h3 class="sub-title">6.3 What I Learned</h3>
+    <h3 class="sub-title">5.3 What I Learned</h3>
     <ul>
       <li>Understood the core NodeJS HTTP request lifecycle and how request bodies stream over TCP chunks.</li>
       <li>Gained practical mastery of the <code>EventEmitter</code> pattern for non-blocking asynchronous event handling.</li>
@@ -587,7 +554,7 @@ class ServerAuditEmitter extends EventEmitter {
     </ul>
 
     <!-- Section 7 -->
-    <h2 class="section-title">7. AI Use Declaration (Mandatory Submission Table)</h2>
+    <h2 class="section-title">6. AI Use Declaration (Mandatory Submission Table)</h2>
     <table class="table-custom">
       <tr>
         <td style="width: 35%; font-weight: bold; background: #f8fafc;">AI tool and prompt used</td>
